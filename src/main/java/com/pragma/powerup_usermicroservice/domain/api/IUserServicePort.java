@@ -1,0 +1,11 @@
+package com.pragma.powerup_usermicroservice.domain.api;
+
+import com.pragma.powerup_usermicroservice.domain.model.User;
+
+public interface IUserServicePort {
+    boolean checkAge(User user);
+    
+    void createOwner(User user);
+    
+    User getOwner(Long id);
+}
