@@ -1,5 +1,7 @@
 package com.pragma.powerup_usermicroservice.application.mapper;
 
+import com.pragma.powerup_usermicroservice.application.dto.response.AdminResponseDto;
+import com.pragma.powerup_usermicroservice.application.dto.response.LoggedUserResponseDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.OwnerResponseDto;
 import com.pragma.powerup_usermicroservice.domain.model.User;
 import org.mapstruct.Mapper;
@@ -21,5 +23,13 @@ public interface IUserResponseMapper {
     
     List<OwnerResponseDto> userToOwnerResponseDtoList(List<User> userList);
     
+    @Mapping(source = "role.id", target = "role.id")
+    @Mapping(source = "role.name", target = "role.name")
+    @Mapping(source = "role.description", target = "role.description")
+    AdminResponseDto userToAdminResponseDto(User user);
     
+    @Mapping(source = "role.id", target = "role.id")
+    @Mapping(source = "role.name", target = "role.name")
+    @Mapping(source = "role.description", target = "role.description")
+    LoggedUserResponseDto userToLoggedUserResponseDto(User user);
 }

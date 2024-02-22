@@ -25,8 +25,8 @@ class RoleUseCaseTest {
     @Test
     @DisplayName("Get role with valid id calls persistence port")
     void getRole_validId_callsPersistencePort(){
-        roleUseCase.getRole(1L);
-        Mockito.verify(rolePersistencePort).getRole(1L);
+        roleUseCase.getRoleById(1L);
+        Mockito.verify(rolePersistencePort).getRoleById(1L);
     }
     
     @Test

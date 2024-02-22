@@ -1,5 +1,6 @@
 package com.pragma.powerup_usermicroservice.infrastructure.configuration;
 
+import com.pragma.powerup_usermicroservice.domain.api.IJwtServicePort;
 import com.pragma.powerup_usermicroservice.domain.api.IRoleServicePort;
 import com.pragma.powerup_usermicroservice.domain.api.IUserServicePort;
 import com.pragma.powerup_usermicroservice.domain.spi.IRolePersistencePort;
@@ -15,14 +16,17 @@ import com.pragma.powerup_usermicroservice.infrastructure.out.jpa.repository.IUs
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
+    private final IJwtServicePort jwtServicePort;
     private final IRoleRepository roleRepository;
     private final IRoleEntityMapper roleEntityMapper;
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
+    private final PasswordEncoder passwordEncoder;
     
     @Bean
     public IRolePersistencePort rolePersistencePort() {
@@ -36,7 +40,7 @@ public class BeanConfiguration {
     
     @Bean
     public IUserPersistencePort userPersistencePort() {
-        return new UserJpaAdapter(userRepository, userEntityMapper);
+        return new UserJpaAdapter(userRepository, userEntityMapper, passwordEncoder, jwtServicePort);
     }
     
     @Bean

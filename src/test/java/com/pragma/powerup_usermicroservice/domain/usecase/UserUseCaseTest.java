@@ -62,8 +62,8 @@ class UserUseCaseTest {
     @Test
     @DisplayName("Get owner with valid id calls persistence port")
     void getOwner_validId_callsPersistencePort() {
-        userUseCase.getOwner(1L);
-        Mockito.verify(userPersistencePort).getOwner(1L);
+        userUseCase.getOwnerById(1L);
+        Mockito.verify(userPersistencePort).getOwnerById(1L);
     }
     
 }

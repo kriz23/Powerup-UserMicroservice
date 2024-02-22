@@ -4,5 +4,6 @@ import com.pragma.powerup_usermicroservice.domain.model.User;
 
 public interface IUserPersistencePort {
     void createOwner(User user);
-    User getOwner(Long id);
+    User getOwnerById(Long id);
+    User getUserByMail(String authHeader, String mail);
 }

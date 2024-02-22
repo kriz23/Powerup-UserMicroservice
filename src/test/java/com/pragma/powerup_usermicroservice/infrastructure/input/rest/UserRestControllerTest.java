@@ -47,7 +47,7 @@ class UserRestControllerTest {
                                                               LocalDate.of(2000, 1, 1), "john.doe@gmail.com",
                                                               "$2a$10$Pl5xVXG4JkXsJZ4krcIMAuDIDNCk8HKqeJYQ8gUjE64QfHjR0aSeu",
                                                               new RoleResponseDto(2L, "OWNER", "Owner"));
-        Mockito.when(userHandler.getOwner(1L)).thenReturn(expectedOwner);
+        Mockito.when(userHandler.getOwnerById(1L)).thenReturn(expectedOwner);
         
         OwnerResponseDto actualOwner = userRestController.getOwner(1L).getBody();
         
