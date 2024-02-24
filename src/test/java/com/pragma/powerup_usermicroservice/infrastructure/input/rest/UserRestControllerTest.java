@@ -49,9 +49,9 @@ class UserRestControllerTest {
                                                               new RoleResponseDto(2L, "OWNER", "Owner"));
         Mockito.when(userHandler.getOwnerById(1L)).thenReturn(expectedOwner);
         
-        OwnerResponseDto actualOwner = userRestController.getOwner(1L).getBody();
+        OwnerResponseDto actualOwner = userRestController.getOwnerById(1L).getBody();
         
-        assertEquals(HttpStatus.OK, userRestController.getOwner(1L).getStatusCode());
+        assertEquals(HttpStatus.OK, userRestController.getOwnerById(1L).getStatusCode());
         assertEquals(expectedOwner, actualOwner);
         
         

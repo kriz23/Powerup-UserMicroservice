@@ -1,6 +1,5 @@
 package com.pragma.powerup_usermicroservice.infrastructure.out.jpa.adapter;
 
-import com.pragma.powerup_usermicroservice.application.service.PasswordManager;
 import com.pragma.powerup_usermicroservice.domain.model.Role;
 import com.pragma.powerup_usermicroservice.domain.model.User;
 import com.pragma.powerup_usermicroservice.infrastructure.exception.MailAlreadyRegistered;
