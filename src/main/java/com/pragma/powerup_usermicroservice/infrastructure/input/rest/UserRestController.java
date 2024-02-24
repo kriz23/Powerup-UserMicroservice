@@ -1,5 +1,6 @@
 package com.pragma.powerup_usermicroservice.infrastructure.input.rest;
 
+import com.pragma.powerup_usermicroservice.application.dto.request.EmployeeRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.AdminResponseDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.LoggedUserResponseDto;
@@ -84,6 +85,22 @@ public class UserRestController {
     public ResponseEntity<OwnerResponseDto> getOwnerByMail(
             @Parameter(description = "Owner mail") @PathVariable String mail, HttpServletRequest request) {
         return ResponseEntity.ok(userHandler.getOwnerByMail(mail, request));
+    }
+    
+    @Operation(summary = "Create a new employee")
+    @Tag(name = "Employee", description = "Employee related endpoints")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Employee created", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Employee already exists", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Role not allowed for employee creation", content =
+            @Content)})
+    @PostMapping("/employees/restaurants/{idRestaurant}")
+    @PreAuthorize("hasRole('PROPIETARIO')")
+    public ResponseEntity<Void> createEmployee(@Parameter(description = "Restaurant id") @PathVariable Long idRestaurant,
+                                               @RequestBody EmployeeRequestDto employeeRequestDto,
+                                               HttpServletRequest request) {
+        employeeRequestDto.setIdRole(3L);
+        userHandler.createEmployee(employeeRequestDto, idRestaurant, request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
 }

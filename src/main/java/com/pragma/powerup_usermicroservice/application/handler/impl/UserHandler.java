@@ -1,5 +1,6 @@
 package com.pragma.powerup_usermicroservice.application.handler.impl;
 
+import com.pragma.powerup_usermicroservice.application.dto.request.EmployeeRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.AdminResponseDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.LoggedUserResponseDto;
@@ -26,6 +27,24 @@ public class UserHandler implements IUserHandler {
     private final IUserPersistencePort userPersistencePort;
     
     @Override
+    public LoggedUserResponseDto getLoggedUserByMail(String mail, HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        return userResponseMapper.userToLoggedUserResponseDto(userPersistencePort.getUserByMail(authHeader, mail));
+    }
+    
+    @Override
+    public AdminResponseDto getAdminByMail(String mail, HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        return userResponseMapper.userToAdminResponseDto(userPersistencePort.getUserByMail(authHeader, mail));
+    }
+    
+    @Override
+    public OwnerResponseDto getOwnerByMail(String mail, HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        return userResponseMapper.userToOwnerResponseDto(userPersistencePort.getUserByMail(authHeader, mail));
+    }
+    
+    @Override
     public void createOwner(OwnerRequestDto ownerRequestDto) {
         userServicePort.createOwner(userRequestMapper.ownerRequestDtoToUser(ownerRequestDto));
     }
@@ -36,20 +55,16 @@ public class UserHandler implements IUserHandler {
     }
     
     @Override
-    public OwnerResponseDto getOwnerByMail(String mail, HttpServletRequest request) {
+    public void createEmployee(EmployeeRequestDto employeeRequestDto, Long idRestaurant,
+                               HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-        return userResponseMapper.userToOwnerResponseDto(userPersistencePort.getUserByMail(authHeader, mail));
+        userServicePort.createEmployee(authHeader, userRequestMapper.employeeRequestDtoToUser(employeeRequestDto),
+                                       idRestaurant);
+        
     }
     
-    @Override
-    public AdminResponseDto getAdminByMail(String mail, HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        return userResponseMapper.userToAdminResponseDto(userPersistencePort.getUserByMail(authHeader, mail));
-    }
     
-    @Override
-    public LoggedUserResponseDto getLoggedUserByMail(String mail, HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        return userResponseMapper.userToLoggedUserResponseDto(userPersistencePort.getUserByMail(authHeader, mail));
-    }
+    
+    
+    
 }

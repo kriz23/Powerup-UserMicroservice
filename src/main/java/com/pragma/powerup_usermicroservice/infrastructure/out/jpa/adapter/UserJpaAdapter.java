@@ -40,6 +40,18 @@ public class UserJpaAdapter implements IUserPersistencePort {
     }
     
     @Override
+    public User createEmployee(User user) {
+        if (userRepository.findByDocNumber(user.getDocNumber()).isPresent()) {
+            throw new UserAlreadyExistsException();
+        }
+        if (userRepository.existsByMail(user.getMail())) {
+            throw new MailAlreadyRegistered();
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userEntityMapper.userEntityToUser(userRepository.save(userEntityMapper.userToUserEntity(user)));
+    }
+    
+    @Override
     public User getUserByMail(String authHeader, String mail) {
         String requestUserMail = jwtServicePort.getMailFromToken(jwtServicePort.getTokenFromHeader(authHeader));
         if (!requestUserMail.equals(mail)){

@@ -6,4 +6,5 @@ public interface IUserServicePort {
     boolean checkAge(User user);
     void createOwner(User user);
     User getOwnerById(Long id);
+    void createEmployee(String authHeader, User user, Long idRestaurant);
 }

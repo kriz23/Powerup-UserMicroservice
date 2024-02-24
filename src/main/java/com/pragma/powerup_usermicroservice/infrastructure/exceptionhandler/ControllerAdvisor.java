@@ -1,6 +1,8 @@
 package com.pragma.powerup_usermicroservice.infrastructure.exceptionhandler;
 
 import com.pragma.powerup_usermicroservice.domain.exception.OwnerMustBe18yo;
+import com.pragma.powerup_usermicroservice.domain.exception.RestaurantEmployeeAssignErrorException;
+import com.pragma.powerup_usermicroservice.domain.exception.RestaurantOwnerInvalidException;
 import com.pragma.powerup_usermicroservice.infrastructure.exception.MailAlreadyRegistered;
 import com.pragma.powerup_usermicroservice.infrastructure.exception.NoDataFoundException;
 import com.pragma.powerup_usermicroservice.infrastructure.exception.RequestMailInvalidException;
@@ -31,6 +33,20 @@ public class ControllerAdvisor {
     public ResponseEntity<Map<String, String>> handleOwnerMustBe18yo(OwnerMustBe18yo ignoredOwnerMustBe18yo) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 Collections.singletonMap(MESSAGE, ExceptionResponse.OWNER_MUST_BE_18_YO.getMessage()));
+    }
+    
+    @ExceptionHandler(RestaurantOwnerInvalidException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantOwnerInvalidException(
+            RestaurantOwnerInvalidException ignoredRestaurantOwnerInvalidException) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_OWNER_INVALID.getMessage()));
+    }
+    
+    @ExceptionHandler(RestaurantEmployeeAssignErrorException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantEmployeeAssignErrorException(
+            RestaurantEmployeeAssignErrorException ignoredRestaurantEmployeeAssignErrorException) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_EMPLOYEE_ASSIGN_ERROR.getMessage()));
     }
     
     // INFRASTRUCTURE EXCEPTIONS

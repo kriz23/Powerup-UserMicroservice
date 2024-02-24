@@ -3,10 +3,13 @@ package com.pragma.powerup_usermicroservice.infrastructure.configuration;
 import com.pragma.powerup_usermicroservice.domain.api.IJwtServicePort;
 import com.pragma.powerup_usermicroservice.domain.api.IRoleServicePort;
 import com.pragma.powerup_usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup_usermicroservice.domain.clientapi.ISmallSquareMSClientPort;
 import com.pragma.powerup_usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup_usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup_usermicroservice.domain.usecase.RoleUseCase;
 import com.pragma.powerup_usermicroservice.domain.usecase.UserUseCase;
+import com.pragma.powerup_usermicroservice.infrastructure.out.http.adapter.SmallSquareFeignClientAdapter;
+import com.pragma.powerup_usermicroservice.infrastructure.out.http.feignclient.ISmallSquareFeignClient;
 import com.pragma.powerup_usermicroservice.infrastructure.out.jpa.adapter.RoleJpaAdapter;
 import com.pragma.powerup_usermicroservice.infrastructure.out.jpa.adapter.UserJpaAdapter;
 import com.pragma.powerup_usermicroservice.infrastructure.out.jpa.mapper.IRoleEntityMapper;
@@ -22,11 +25,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class BeanConfiguration {
     private final IJwtServicePort jwtServicePort;
+    private final ISmallSquareFeignClient smallSquareFeignClient;
     private final IRoleRepository roleRepository;
     private final IRoleEntityMapper roleEntityMapper;
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
     private final PasswordEncoder passwordEncoder;
+    
+    @Bean
+    public ISmallSquareMSClientPort smallSquareMSClientPort(){
+        return new SmallSquareFeignClientAdapter(smallSquareFeignClient);
+    }
     
     @Bean
     public IRolePersistencePort rolePersistencePort() {
@@ -45,7 +54,7 @@ public class BeanConfiguration {
     
     @Bean
     public IUserServicePort userServicePort() {
-        return new UserUseCase(userPersistencePort());
+        return new UserUseCase(userPersistencePort(), smallSquareMSClientPort(), jwtServicePort);
     }
     
 }

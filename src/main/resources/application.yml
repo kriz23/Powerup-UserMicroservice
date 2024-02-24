@@ -24,3 +24,5 @@ security:
 
 appDescription: "Pragma Powerup"
 appVersion: "1.0.0"
+
+powerup_smallsquaremicroservice_url: "http://localhost:9001/api/v1"
