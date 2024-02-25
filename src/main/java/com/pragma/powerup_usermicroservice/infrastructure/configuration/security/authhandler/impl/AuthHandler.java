@@ -1,7 +1,10 @@
 package com.pragma.powerup_usermicroservice.infrastructure.configuration.security.authhandler.impl;
 
+import com.pragma.powerup_usermicroservice.application.dto.request.ClientRegisterRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.LoginRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.JwtResponseDto;
+import com.pragma.powerup_usermicroservice.application.handler.IUserHandler;
+import com.pragma.powerup_usermicroservice.domain.api.IUserServicePort;
 import com.pragma.powerup_usermicroservice.infrastructure.configuration.security.authhandler.IAuthHandler;
 import com.pragma.powerup_usermicroservice.domain.api.IJwtServicePort;
 import com.pragma.powerup_usermicroservice.infrastructure.exception.NoDataFoundException;
@@ -21,6 +24,7 @@ public class AuthHandler implements IAuthHandler {
     private final AuthenticationManager authenticationManager;
     private final IJwtServicePort jwtServicePort;
     private final IUserRepository userRepository;
+    private final IUserHandler userHandler;
     
     @Override
     public JwtResponseDto login(LoginRequestDto loginRequestDto) {
@@ -29,5 +33,10 @@ public class AuthHandler implements IAuthHandler {
         UserEntity user = userRepository.findByMail(loginRequestDto.getMail()).orElseThrow(NoDataFoundException::new);
         String token = jwtServicePort.generateToken(user);
         return new JwtResponseDto(token);
+    }
+    
+    @Override
+    public void register(ClientRegisterRequestDto clientRegisterRequestDto) {
+        userHandler.createClient(clientRegisterRequestDto);
     }
 }

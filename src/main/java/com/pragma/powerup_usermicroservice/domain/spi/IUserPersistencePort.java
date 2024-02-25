@@ -7,4 +7,5 @@ public interface IUserPersistencePort {
     void createOwner(User user);
     User getOwnerById(Long id);
     User createEmployee(User user);
+    void createClient(User user);
 }
