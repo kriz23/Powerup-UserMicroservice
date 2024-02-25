@@ -14,4 +14,5 @@ public interface IUserServicePort {
     void createOwner(User user);
     User getOwnerById(Long id);
     void createEmployee(String authHeader, User user, Long idRestaurant);
+    void createClient(User user);
 }

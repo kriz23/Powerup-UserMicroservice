@@ -119,4 +119,12 @@ public class UserUseCase implements IUserServicePort {
             }
         }
     }
+    
+    @Override
+    public void createClient(User user) {
+        if (genericValidations(user)){
+            userPersistencePort.createClient(user);
+        }
+    
+    }
 }

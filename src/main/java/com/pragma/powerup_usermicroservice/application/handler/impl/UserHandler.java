@@ -1,5 +1,6 @@
 package com.pragma.powerup_usermicroservice.application.handler.impl;
 
+import com.pragma.powerup_usermicroservice.application.dto.request.ClientRegisterRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.EmployeeRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.AdminResponseDto;
@@ -63,8 +64,10 @@ public class UserHandler implements IUserHandler {
         
     }
     
-    
-    
+    @Override
+    public void createClient(ClientRegisterRequestDto clientRegisterRequestDto) {
+        userServicePort.createClient(userRequestMapper.clientRegisterRequestDtoToUser(clientRegisterRequestDto));
+    }
     
     
 }

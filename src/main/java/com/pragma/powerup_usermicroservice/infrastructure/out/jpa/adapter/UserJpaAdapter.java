@@ -23,14 +23,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     
     @Override
     public void createOwner(User user) {
-        if (userRepository.findByDocNumber(user.getDocNumber()).isPresent()) {
-            throw new UserAlreadyExistsException();
-        }
-        if (userRepository.existsByMail(user.getMail())) {
-            throw new MailAlreadyRegistered();
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(userEntityMapper.userToUserEntity(user));
+        createUser(user);
     }
     
     @Override
@@ -41,14 +34,14 @@ public class UserJpaAdapter implements IUserPersistencePort {
     
     @Override
     public User createEmployee(User user) {
-        if (userRepository.findByDocNumber(user.getDocNumber()).isPresent()) {
-            throw new UserAlreadyExistsException();
-        }
-        if (userRepository.existsByMail(user.getMail())) {
-            throw new MailAlreadyRegistered();
-        }
+        userAlreadyExistsValidation(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userEntityMapper.userEntityToUser(userRepository.save(userEntityMapper.userToUserEntity(user)));
+    }
+    
+    @Override
+    public void createClient(User user) {
+        createUser(user);
     }
     
     @Override
@@ -59,6 +52,21 @@ public class UserJpaAdapter implements IUserPersistencePort {
         }
         UserEntity userEntity = userRepository.findByMail(mail).orElseThrow(NoDataFoundException::new);
         return userEntityMapper.userEntityToUser(userEntity);
+    }
+    
+    public void userAlreadyExistsValidation(User user){
+        if (userRepository.findByDocNumber(user.getDocNumber()).isPresent()) {
+            throw new UserAlreadyExistsException();
+        }
+        if (userRepository.existsByMail(user.getMail())) {
+            throw new MailAlreadyRegistered();
+        }
+    }
+    
+    public void createUser(User user){
+        userAlreadyExistsValidation(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(userEntityMapper.userToUserEntity(user));
     }
     
 }

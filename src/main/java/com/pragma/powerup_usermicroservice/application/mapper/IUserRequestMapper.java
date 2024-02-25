@@ -1,5 +1,6 @@
 package com.pragma.powerup_usermicroservice.application.mapper;
 
+import com.pragma.powerup_usermicroservice.application.dto.request.ClientRegisterRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.EmployeeRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup_usermicroservice.domain.model.User;
@@ -15,5 +16,8 @@ public interface IUserRequestMapper {
     
     @Mapping(source = "idRole", target = "role.id")
     User employeeRequestDtoToUser(EmployeeRequestDto employeeRequestDto);
+    
+    @Mapping(source = "idRole", target = "role.id")
+    User clientRegisterRequestDtoToUser(ClientRegisterRequestDto clientRegisterRequestDto);
     
 }

@@ -1,5 +1,6 @@
 package com.pragma.powerup_usermicroservice.application.handler;
 
+import com.pragma.powerup_usermicroservice.application.dto.request.ClientRegisterRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.EmployeeRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup_usermicroservice.application.dto.response.AdminResponseDto;
@@ -15,4 +16,5 @@ public interface IUserHandler {
     void createOwner(OwnerRequestDto ownerRequestDto);
     OwnerResponseDto getOwnerById(Long idOwner);
     void createEmployee(EmployeeRequestDto employeeRequestDto, Long idRestaurant, HttpServletRequest request);
+    void createClient(ClientRegisterRequestDto clientRegisterRequestDto);
 }
