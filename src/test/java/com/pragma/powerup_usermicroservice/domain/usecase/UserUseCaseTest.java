@@ -197,4 +197,14 @@ class UserUseCaseTest {
         assertThrows(RestaurantEmployeeAssignErrorException.class, () -> userUseCase.createEmployee(authHeader, newEmployee, idRestaurant));
     }
     
+    @Test
+    void createClient_allValid_callsPersistencePort(){
+        User newClient = new User(1L, "John", "Doe", "123456789", "+573101234567", LocalDate.of(1990, 1, 1),
+                                  "john.doe@gmail.com", "plainpassword", new Role(4L, "ROLE_CLIENTE", "Cliente"));
+        
+        userUseCase.createClient(newClient);
+        
+        verify(userPersistencePort, times(1)).createClient(newClient);
+    }
+    
 }
