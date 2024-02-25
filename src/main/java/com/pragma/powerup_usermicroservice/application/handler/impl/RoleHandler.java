@@ -20,7 +20,7 @@ public class RoleHandler implements IRoleHandler {
     
     @Override
     public RoleResponseDto getRole(Long idRole) {
-        return roleResponseMapper.roleToRoleResponseDto(roleServicePort.getRole(idRole));
+        return roleResponseMapper.roleToRoleResponseDto(roleServicePort.getRoleById(idRole));
     }
     
     @Override

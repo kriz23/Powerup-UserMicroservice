@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RoleUseCaseTest {
@@ -24,9 +24,9 @@ class RoleUseCaseTest {
     
     @Test
     @DisplayName("Get role with valid id calls persistence port")
-    void getRole_validId_callsPersistencePort(){
-        roleUseCase.getRole(1L);
-        Mockito.verify(rolePersistencePort).getRole(1L);
+    void getRoleById_validId_callsPersistencePort(){
+        roleUseCase.getRoleById(1L);
+        verify(rolePersistencePort).getRoleById(1L);
     }
     
     @Test
@@ -36,7 +36,7 @@ class RoleUseCaseTest {
                                            new Role(2L, "PROPIETARIO", "Propietario"),
                                            new Role(3L, "EMPLEADO", "Empleado"),
                                            new Role(4L, "CLIENTE", "Cliente"));
-        Mockito.when(rolePersistencePort.getAllRoles()).thenReturn(expectedRoles);
+        when(rolePersistencePort.getAllRoles()).thenReturn(expectedRoles);
         
         List<Role> actualRoles = roleUseCase.getAllRoles();
         
@@ -48,7 +48,7 @@ class RoleUseCaseTest {
     @DisplayName("Get all roles returns empty list")
     void getAllRoles_returnEmptyList(){
         List<Role> expectedRoles = List.of();
-        Mockito.when(rolePersistencePort.getAllRoles()).thenReturn(expectedRoles);
+        when(rolePersistencePort.getAllRoles()).thenReturn(expectedRoles);
         
         List<Role> actualRoles = roleUseCase.getAllRoles();
         

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "Role Rest Controller", description = "Rest controller for role operations")
+@Tag(name = "Role", description = "Role related endpoints")
 @RestController
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor

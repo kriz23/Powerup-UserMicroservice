@@ -36,7 +36,7 @@ class RoleJpaAdapterTest {
         Mockito.when(roleRepository.findById(1L)).thenReturn(Optional.of(roleEntity1));
         Mockito.when(roleEntityMapper.roleEntityToRole(roleEntity1)).thenReturn(role1);
         
-        assertEquals(role1, roleJpaAdapter.getRole(1L));
+        assertEquals(role1, roleJpaAdapter.getRoleById(1L));
     }
     
     @Test
@@ -44,7 +44,7 @@ class RoleJpaAdapterTest {
     void getRole_throwNoDataFoundException() {
         Mockito.when(roleRepository.findById(1L)).thenReturn(Optional.empty());
         
-        assertThrows(NoDataFoundException.class, () -> roleJpaAdapter.getRole(1L));
+        assertThrows(NoDataFoundException.class, () -> roleJpaAdapter.getRoleById(1L));
     }
     
     @Test
