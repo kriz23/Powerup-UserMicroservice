@@ -62,7 +62,7 @@ public class UserUseCase implements IUserServicePort {
     
     @Override
     public boolean validatePhone(String phone) {
-        Pattern pattern = Pattern.compile("^\\+?\\d{9,13}$");
+        Pattern pattern = Pattern.compile("^\\+573\\d{9}$");
         if (!pattern.matcher(phone).matches() || phone.isEmpty()) {
             throw new UserPhoneInvalidException();
         }

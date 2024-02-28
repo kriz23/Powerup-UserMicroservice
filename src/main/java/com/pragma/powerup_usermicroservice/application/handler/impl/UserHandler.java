@@ -10,6 +10,7 @@ import com.pragma.powerup_usermicroservice.application.handler.IUserHandler;
 import com.pragma.powerup_usermicroservice.application.mapper.IUserRequestMapper;
 import com.pragma.powerup_usermicroservice.application.mapper.IUserResponseMapper;
 import com.pragma.powerup_usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup_usermicroservice.domain.exception.UserPhoneInvalidException;
 import com.pragma.powerup_usermicroservice.domain.spi.IUserPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,12 @@ public class UserHandler implements IUserHandler {
     
     @Override
     public void createOwner(OwnerRequestDto ownerRequestDto) {
+        if (ownerRequestDto.getPhone().length() <= 10 && ownerRequestDto.getPhone().contains("+57")) {
+            throw new UserPhoneInvalidException();
+        }
+        if (ownerRequestDto.getPhone().length() == 10 && !ownerRequestDto.getPhone().contains("+57")) {
+            ownerRequestDto.setPhone("+57" + ownerRequestDto.getPhone());
+        }
         userServicePort.createOwner(userRequestMapper.ownerRequestDtoToUser(ownerRequestDto));
     }
     
@@ -59,6 +66,12 @@ public class UserHandler implements IUserHandler {
     public void createEmployee(EmployeeRequestDto employeeRequestDto, Long idRestaurant,
                                HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
+        if (employeeRequestDto.getPhone().length() <= 10 && employeeRequestDto.getPhone().contains("+57")) {
+            throw new UserPhoneInvalidException();
+        }
+        if (employeeRequestDto.getPhone().length() == 10 && !employeeRequestDto.getPhone().contains("+57")) {
+            employeeRequestDto.setPhone("+57" + employeeRequestDto.getPhone());
+        }
         userServicePort.createEmployee(authHeader, userRequestMapper.employeeRequestDtoToUser(employeeRequestDto),
                                        idRestaurant);
         
@@ -66,6 +79,12 @@ public class UserHandler implements IUserHandler {
     
     @Override
     public void createClient(ClientRegisterRequestDto clientRegisterRequestDto) {
+        if (clientRegisterRequestDto.getPhone().length() <= 10 && clientRegisterRequestDto.getPhone().contains("+57")) {
+            throw new UserPhoneInvalidException();
+        }
+        if (clientRegisterRequestDto.getPhone().length() == 10 && !clientRegisterRequestDto.getPhone().contains("+57")) {
+            clientRegisterRequestDto.setPhone("+57" + clientRegisterRequestDto.getPhone());
+        }
         userServicePort.createClient(userRequestMapper.clientRegisterRequestDtoToUser(clientRegisterRequestDto));
     }
     
