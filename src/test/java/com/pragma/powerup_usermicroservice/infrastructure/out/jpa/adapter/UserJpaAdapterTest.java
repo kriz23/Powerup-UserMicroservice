@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -29,6 +30,8 @@ class UserJpaAdapterTest {
     private IUserRepository userRepository;
     @Mock
     private IUserEntityMapper userEntityMapper;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private UserJpaAdapter userJpaAdapter;
     
@@ -50,6 +53,7 @@ class UserJpaAdapterTest {
         Mockito.when(userRepository.findByDocNumber(user.getDocNumber())).thenReturn(Optional.empty());
         Mockito.when(userRepository.existsByMail(user.getMail())).thenReturn(false);
         Mockito.when(userEntityMapper.userToUserEntity(user)).thenReturn(userEntity);
+        Mockito.when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedpassword");
         
         userJpaAdapter.createOwner(user);
         

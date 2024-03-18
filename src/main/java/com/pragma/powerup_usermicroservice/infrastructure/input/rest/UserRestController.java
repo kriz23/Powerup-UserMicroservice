@@ -58,7 +58,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "409", description = "Owner already exists", content = @Content),
             @ApiResponse(responseCode = "403", description = "Role not allowed for owner creation", content =
             @Content)})
-    @PostMapping("/owners")
+    @PostMapping("/admins/owners")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> createOwner(@RequestBody OwnerRequestDto ownerRequestDto) {
         ownerRequestDto.setIdRole(2L);
@@ -70,7 +70,7 @@ public class UserRestController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Desired owner returned", content =
     @Content(mediaType = "application/json", schema = @Schema(implementation = OwnerResponseDto.class))),
             @ApiResponse(responseCode = "404", description = "No data found", content = @Content)})
-    @GetMapping("/owners/{id}")
+    @GetMapping("/admins/owners/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<OwnerResponseDto> getOwnerById(@Parameter(description = "Owner id") @PathVariable Long id) {
         return ResponseEntity.ok(userHandler.getOwnerById(id));
@@ -80,7 +80,7 @@ public class UserRestController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Desired owner returned", content =
     @Content(mediaType = "application/json", schema = @Schema(implementation = OwnerResponseDto.class))),
             @ApiResponse(responseCode = "404", description = "No data found", content = @Content)})
-    @GetMapping("/owners/mail/{mail}")
+    @GetMapping("/admins/owners/mail/{mail}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<OwnerResponseDto> getOwnerByMail(
             @Parameter(description = "Owner mail") @PathVariable String mail, HttpServletRequest request) {
@@ -93,7 +93,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "409", description = "Employee already exists", content = @Content),
             @ApiResponse(responseCode = "403", description = "Role not allowed for employee creation", content =
             @Content)})
-    @PostMapping("/employees/restaurants/{idRestaurant}")
+    @PostMapping("/owners/employees/restaurants/{idRestaurant}")
     @PreAuthorize("hasRole('PROPIETARIO')")
     public ResponseEntity<Void> createEmployee(@Parameter(description = "Restaurant id") @PathVariable Long idRestaurant,
                                                @RequestBody EmployeeRequestDto employeeRequestDto,
